@@ -1,0 +1,74 @@
+[
+  {
+    "file": "src/main.c",
+    "arguments": [
+      "/usr/bin/clang",
+      "-g",
+      "-Wall",
+      "-Werror",
+      "-Isrc",
+      "-DDEBUG=1",
+      "-I/opt/homebrew/Cellar/raylib/5.5/include",
+      "-c",
+      "src/main.c",
+      "-o",
+      "build/main.o"
+    ],
+    "directory": "/Users/plunyo/Coding/Top-Down-Shooter",
+    "output": "build/main.o"
+  },
+  {
+    "file": "src/world_state/world_state.c",
+    "arguments": [
+      "/usr/bin/clang",
+      "-g",
+      "-Wall",
+      "-Werror",
+      "-Isrc",
+      "-DDEBUG=1",
+      "-I/opt/homebrew/Cellar/raylib/5.5/include",
+      "-c",
+      "src/world_state/world_state.c",
+      "-o",
+      "build/world_state/world_state.o"
+    ],
+    "directory": "/Users/plunyo/Coding/Top-Down-Shooter",
+    "output": "build/world_state/world_state.o"
+  },
+  {
+    "file": "src/asset_manager/asset_manager.c",
+    "arguments": [
+      "/usr/bin/clang",
+      "-g",
+      "-Wall",
+      "-Werror",
+      "-Isrc",
+      "-DDEBUG=1",
+      "-I/opt/homebrew/Cellar/raylib/5.5/include",
+      "-c",
+      "src/asset_manager/asset_manager.c",
+      "-o",
+      "build/asset_manager/asset_manager.o"
+    ],
+    "directory": "/Users/plunyo/Coding/Top-Down-Shooter",
+    "output": "build/asset_manager/asset_manager.o"
+  },
+  {
+    "file": "src/player/player.c",
+    "arguments": [
+      "/usr/bin/clang",
+      "-g",
+      "-Wall",
+      "-Werror",
+      "-Isrc",
+      "-DDEBUG=1",
+      "-I/opt/homebrew/Cellar/raylib/5.5/include",
+      "-c",
+      "src/player/player.c",
+      "-o",
+      "build/player/player.o"
+    ],
+    "directory": "/Users/plunyo/Coding/Top-Down-Shooter",
+    "output": "build/player/player.o"
+  }
+]
