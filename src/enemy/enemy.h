@@ -1,0 +1,10 @@
+#pragma once
+
+typedef enum EnemyType {
+    PLAYER_ACTION_PISTOL,
+    PLAYER_ACTION_HOLD,
+    PLAYER_ACTION_MACHINE,
+    PLAYER_ACTION_RELOAD,
+    PLAYER_ACTION_SILENCER,
+    PLAYER_ACTION_STAND,
+} EnemyType;

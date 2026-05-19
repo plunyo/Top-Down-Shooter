@@ -22,6 +22,8 @@ void UpdateWorldState(WorldState* worldState, float deltaTime) {
 
 void DrawWorldState(WorldState* worldState) {
     BeginMode2D(worldState->player->camera);
+        ClearBackground(DARKGREEN);
+
         DrawRectangle(0, 0, 100, 100, RED);
         
         DrawPlayer(worldState->player);

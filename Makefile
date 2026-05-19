@@ -1,16 +1,16 @@
 CC = clang
+
 DEBUG ?= 1
-
 TARGET = game
-OBJ_DIR = build
 
+OBJ_DIR = build
 SRC = $(shell find src -name "*.c")
 OBJ = $(patsubst src/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 CFLAGS = -g -Wall -Werror -Isrc
 
 ifeq ($(DEBUG),1)
-	CFLAGS += -DDEBUG=1
+CFLAGS += -DDEBUG=1
 endif
 
 # -------------------------
@@ -19,28 +19,35 @@ endif
 UNAME_S := $(shell uname -s)
 
 # -------------------------
-# raylib flags (pkg-config first)
+# pkg-config (raylib if available)
 # -------------------------
 PKG_CFLAGS := $(shell pkg-config --cflags raylib 2>/dev/null)
-PKG_LIBS := $(shell pkg-config --libs raylib 2>/dev/null)
+PKG_LIBS   := $(shell pkg-config --libs raylib 2>/dev/null)
 
-ifeq ($(PKG_CFLAGS),)
-	# fallback include paths
-	CFLAGS += -I/usr/local/include -I/opt/homebrew/include
-else
-	CFLAGS += $(PKG_CFLAGS)
+ifneq ($(PKG_CFLAGS),)
+CFLAGS += $(PKG_CFLAGS)
 endif
 
+# -------------------------
+# linker flags
+# IMPORTANT: split correctly
+# -------------------------
+LDFLAGS =
+LDLIBS  =
+
 ifeq ($(PKG_LIBS),)
-	# fallback libs per OS
-	ifeq ($(UNAME_S),Darwin)
-		LDFLAGS = -L/usr/local/lib -L/opt/homebrew/lib -lraylib \
-		          -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo -lm
-	else
-		LDFLAGS = -lraylib -lm -lGL -lm -lpthread -ldl -lrt -lX11
-	endif
+# fallback manual linking
+
+ifeq ($(UNAME_S),Darwin)
+LDLIBS += -lraylib -lm
+LDFLAGS += -L/usr/local/lib -L/opt/homebrew/lib
+LDFLAGS += -framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo
 else
-	LDFLAGS = $(PKG_LIBS)
+LDLIBS += -lraylib -lm -lGL -lpthread -ldl -lrt -lX11
+endif
+
+else
+LDLIBS += $(PKG_LIBS) -lm
 endif
 
 # -------------------------
@@ -49,7 +56,7 @@ endif
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CC) $(OBJ) -o $(TARGET) $(LDFLAGS)
+	$(CC) $(OBJ) -o $(TARGET) $(LDFLAGS) $(LDLIBS)
 
 $(OBJ_DIR)/%.o: src/%.c
 	@mkdir -p $(dir $@)

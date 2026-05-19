@@ -1,6 +1,5 @@
 [
   {
-    "file": "src/main.c",
     "arguments": [
       "/usr/bin/clang",
       "-g",
@@ -8,17 +7,16 @@
       "-Werror",
       "-Isrc",
       "-DDEBUG=1",
-      "-I/opt/homebrew/Cellar/raylib/5.5/include",
       "-c",
-      "src/main.c",
       "-o",
-      "build/main.o"
+      "build/asset_manager/asset_manager.o",
+      "src/asset_manager/asset_manager.c"
     ],
-    "directory": "/Users/plunyo/Coding/Top-Down-Shooter",
-    "output": "build/main.o"
+    "directory": "/home/plunyo/Coding/Top-Down-Shooter",
+    "file": "/home/plunyo/Coding/Top-Down-Shooter/src/asset_manager/asset_manager.c",
+    "output": "/home/plunyo/Coding/Top-Down-Shooter/build/asset_manager/asset_manager.o"
   },
   {
-    "file": "src/world_state/world_state.c",
     "arguments": [
       "/usr/bin/clang",
       "-g",
@@ -26,17 +24,16 @@
       "-Werror",
       "-Isrc",
       "-DDEBUG=1",
-      "-I/opt/homebrew/Cellar/raylib/5.5/include",
       "-c",
-      "src/world_state/world_state.c",
       "-o",
-      "build/world_state/world_state.o"
+      "build/main.o",
+      "src/main.c"
     ],
-    "directory": "/Users/plunyo/Coding/Top-Down-Shooter",
-    "output": "build/world_state/world_state.o"
+    "directory": "/home/plunyo/Coding/Top-Down-Shooter",
+    "file": "/home/plunyo/Coding/Top-Down-Shooter/src/main.c",
+    "output": "/home/plunyo/Coding/Top-Down-Shooter/build/main.o"
   },
   {
-    "file": "src/asset_manager/asset_manager.c",
     "arguments": [
       "/usr/bin/clang",
       "-g",
@@ -44,17 +41,16 @@
       "-Werror",
       "-Isrc",
       "-DDEBUG=1",
-      "-I/opt/homebrew/Cellar/raylib/5.5/include",
       "-c",
-      "src/asset_manager/asset_manager.c",
       "-o",
-      "build/asset_manager/asset_manager.o"
+      "build/player/player.o",
+      "src/player/player.c"
     ],
-    "directory": "/Users/plunyo/Coding/Top-Down-Shooter",
-    "output": "build/asset_manager/asset_manager.o"
+    "directory": "/home/plunyo/Coding/Top-Down-Shooter",
+    "file": "/home/plunyo/Coding/Top-Down-Shooter/src/player/player.c",
+    "output": "/home/plunyo/Coding/Top-Down-Shooter/build/player/player.o"
   },
   {
-    "file": "src/player/player.c",
     "arguments": [
       "/usr/bin/clang",
       "-g",
@@ -62,13 +58,30 @@
       "-Werror",
       "-Isrc",
       "-DDEBUG=1",
-      "-I/opt/homebrew/Cellar/raylib/5.5/include",
       "-c",
-      "src/player/player.c",
       "-o",
-      "build/player/player.o"
+      "build/world_state/world_state.o",
+      "src/world_state/world_state.c"
     ],
-    "directory": "/Users/plunyo/Coding/Top-Down-Shooter",
-    "output": "build/player/player.o"
+    "directory": "/home/plunyo/Coding/Top-Down-Shooter",
+    "file": "/home/plunyo/Coding/Top-Down-Shooter/src/world_state/world_state.c",
+    "output": "/home/plunyo/Coding/Top-Down-Shooter/build/world_state/world_state.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang",
+      "-g",
+      "-Wall",
+      "-Werror",
+      "-Isrc",
+      "-DDEBUG=1",
+      "-c",
+      "-o",
+      "build/viewport/viewport.o",
+      "src/viewport/viewport.c"
+    ],
+    "directory": "/home/plunyo/Coding/Top-Down-Shooter",
+    "file": "/home/plunyo/Coding/Top-Down-Shooter/src/viewport/viewport.c",
+    "output": "/home/plunyo/Coding/Top-Down-Shooter/build/viewport/viewport.o"
   }
 ]

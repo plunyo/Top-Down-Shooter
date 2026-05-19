@@ -5,10 +5,11 @@
 #include <raymath.h>
 
 #include "asset_manager/asset_manager.h"
+#include "viewport/viewport.h"
 
 static void CenterPlayer(Player* player) {
-    player->camera.offset.x = GetScreenWidth() / 2.0f;
-    player->camera.offset.y = GetScreenHeight() / 2.0f;
+    player->camera.offset.x = VIRTUAL_WIDTH / 2.0f;
+    player->camera.offset.y = VIRTUAL_HEIGHT / 2.0f;
 }
 
 static float LerpAngle(float current, float target, float t) {
@@ -20,6 +21,11 @@ Player* InitPlayer(Vector2 initialPosition) {
     Player* instance = MemAlloc(sizeof(Player));
 
     instance->position = Vector2Zero();
+    instance->rotation = 0.0f;
+
+    instance->variant = PLAYER_VARIANT_SOLDIER;
+    instance->action = PLAYER_ACTION_MACHINE;
+
     instance->camera = (Camera2D){
         Vector2Zero(),
         Vector2Zero(),
@@ -37,11 +43,32 @@ void UnloadPlayer(Player* player) {
 }
 
 void UpdatePlayer(Player* player, float deltaTime) {
+    // IGNORE THIS HORROR, TEMPORARY CODE....
+    if (IsKeyDown(KEY_LEFT_BRACKET)) {
+        if (IsKeyPressed(KEY_ONE))   player->variant = PLAYER_VARIANT_SOLDIER;
+        if (IsKeyPressed(KEY_TWO))   player->variant = PLAYER_VARIANT_ROBOT;
+        if (IsKeyPressed(KEY_THREE)) player->variant = PLAYER_VARIANT_HITMAN;
+        if (IsKeyPressed(KEY_FOUR))  player->variant = PLAYER_VARIANT_MAN_BLUE;
+        if (IsKeyPressed(KEY_FIVE))  player->variant = PLAYER_VARIANT_MAN_BROWN;
+        if (IsKeyPressed(KEY_SIX))   player->variant = PLAYER_VARIANT_SURVIVOR;
+        if (IsKeyPressed(KEY_SEVEN)) player->variant = PLAYER_VARIANT_WOMAN_GREEN;
+        if (IsKeyPressed(KEY_EIGHT)) player->variant = PLAYER_VARIANT_ZOMBIE;
+    } else if (IsKeyDown(KEY_RIGHT_BRACKET)) {
+        if (IsKeyPressed(KEY_ONE))   player->action = PLAYER_ACTION_HOLD;
+        if (IsKeyPressed(KEY_TWO))   player->action = PLAYER_ACTION_MACHINE;
+        if (IsKeyPressed(KEY_THREE)) player->action = PLAYER_ACTION_PISTOL;
+        if (IsKeyPressed(KEY_FOUR))  player->action = PLAYER_ACTION_RELOAD;
+        if (IsKeyPressed(KEY_FIVE))  player->action = PLAYER_ACTION_SILENCER;
+        if (IsKeyPressed(KEY_SIX))   player->action = PLAYER_ACTION_STAND;
+    }
+
     // rotation
-    Vector2 lookDirection = Vector2Subtract(player->position, GetScreenToWorld2D(GetMousePosition(), player->camera));
+    Vector2 mouseWorld = GetScreenToWorld2D(ScreenToViewport(GetMousePosition()), player->camera);
+    Vector2 lookDirection = Vector2Subtract(mouseWorld, player->position);
+
     player->rotation = LerpAngle(
         player->rotation, 
-        (atan2(lookDirection.y, lookDirection.x) + PI) * RAD2DEG, 
+        atan2(lookDirection.y, lookDirection.x) * RAD2DEG, 
         PLAYER_ROTATION_SMOOTH_SPEED * deltaTime
     );
     
@@ -65,28 +92,20 @@ void UpdatePlayer(Player* player, float deltaTime) {
 }
 
 void DrawPlayer(Player *player) {
-    Texture2D texture = GetTexture(TEX_PLAYER);
-
-    Vector2 size = { texture.width, texture.height };
-
-    Rectangle source = {
-        0.0f, 0.0f,
-        (float)texture.width, (float)texture.height
-    };
+    SpriteSheet sheet = GetSpriteSheet(SS_CHARACTER);
 
     Rectangle dest = {
-        player->position.x, player->position.y,
-        size.x, size.y
+        player->position.x,
+        player->position.y,
+        sheet.frameSize,
+        sheet.frameSize
     };
 
-    Vector2 origin = {
-        size.x / 2.0f,
-        size.y / 2.0f
-    };
+    Vector2 origin = sheet.origin;
 
     DrawTexturePro(
-        texture,
-        source,
+        GetTexture(sheet.textureId),
+        GetSpriteSheetFrame(sheet, player->action, player->variant),
         dest,
         origin,
         player->rotation,

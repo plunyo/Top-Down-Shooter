@@ -1,14 +1,19 @@
 #include "asset_manager/asset_manager.h"
-#include "raylib.h"
 
 static AssetManager assetManager = { 0 };
 
-void LoadAssetManager() {
-    RegisterTexture(TEX_PLAYER, "assets/character/man_blue/man_blue_hold.png");
-    RegisterTexture(TEX_ENEMY,  "assets/character/zombie/zombie_hold.png");
+void LoadAssetManager(void) {
+    RegisterTexture(TEX_CHARACTER_SPRITESHEET, "assets/textures/player/player_spritesheet.png");
+
+    RegisterSpriteSheet(
+        SS_CHARACTER,
+        TEX_CHARACTER_SPRITESHEET,
+        64,
+        (Vector2){ 15.0f, 32.0f }
+    );
 }
 
-void UnloadAssetManager() {
+void UnloadAssetManager(void) {
     for (int i = 0; i < TEX_COUNT; i++) {
         UnloadTexture(assetManager.textures[i]);
     }
@@ -22,14 +27,31 @@ void RegisterTexture(TextureID id, const char* path) {
     assetManager.textures[id] = LoadTexture(path);
 }
 
-void RegisterSound(SoundID id, const char* path) {
-    assetManager.sounds[id] = LoadSound(path);
+void RegisterSpriteSheet(SpriteSheetID id, TextureID textureId, int frameSize, Vector2 origin) {
+    assetManager.spriteSheets[id] = (SpriteSheet){
+        .textureId = textureId,
+        .frameSize = frameSize,
+        .origin = origin
+    };
 }
 
 Texture2D GetTexture(TextureID id) {
     return assetManager.textures[id];
 }
 
+SpriteSheet GetSpriteSheet(SpriteSheetID id) {
+    return assetManager.spriteSheets[id];
+}
+
 Sound GetSound(SoundID id) {
     return assetManager.sounds[id];
+}
+
+Rectangle GetSpriteSheetFrame(SpriteSheet sheet, int frameX, int frameY) {
+    return (Rectangle){
+        frameX * sheet.frameSize,
+        frameY * sheet.frameSize,
+        sheet.frameSize,
+        sheet.frameSize
+    };
 }
