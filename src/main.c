@@ -4,8 +4,8 @@
 #include "asset_manager/asset_manager.h"
 
 int main(int argc, char* argv[]) {
-    InitWindow(1920, 1080, "digga mon digga");
-    SetWindowState(FLAG_WINDOW_RESIZABLE);
+    InitWindow(1280, 720, "digga mon digga");
+    SetWindowState(FLAG_WINDOW_RESIZABLE | FLAG_WINDOW_MAXIMIZED);
 
     LoadAssetManager();
     LoadViewport();

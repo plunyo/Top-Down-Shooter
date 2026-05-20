@@ -3,7 +3,7 @@
 static AssetManager assetManager = { 0 };
 
 void LoadAssetManager(void) {
-    RegisterTexture(TEX_CHARACTER_SPRITESHEET, "assets/textures/player/player_spritesheet.png");
+    RegisterTexture(TEX_CHARACTER_SPRITESHEET, "assets/textures/character/character_spritesheet.png");
 
     RegisterSpriteSheet(
         SS_CHARACTER,
