@@ -18,6 +18,24 @@
     "output": "build/viewport/viewport.o"
   },
   {
+    "file": "src/asset/asset_manager.c",
+    "arguments": [
+      "/usr/bin/clang",
+      "-g",
+      "-Wall",
+      "-Werror",
+      "-Isrc",
+      "-DDEBUG=1",
+      "-I/opt/homebrew/Cellar/raylib/5.5/include",
+      "-c",
+      "src/asset/asset_manager.c",
+      "-o",
+      "build/asset/asset_manager.o"
+    ],
+    "directory": "/Users/plunyo/Coding/Top-Down-Shooter",
+    "output": "build/asset/asset_manager.o"
+  },
+  {
     "file": "src/enemy/enemy.c",
     "arguments": [
       "/usr/bin/clang",
@@ -34,6 +52,24 @@
     ],
     "directory": "/Users/plunyo/Coding/Top-Down-Shooter",
     "output": "build/enemy/enemy.o"
+  },
+  {
+    "file": "src/enemy/enemy_manager.c",
+    "arguments": [
+      "/usr/bin/clang",
+      "-g",
+      "-Wall",
+      "-Werror",
+      "-Isrc",
+      "-DDEBUG=1",
+      "-I/opt/homebrew/Cellar/raylib/5.5/include",
+      "-c",
+      "src/enemy/enemy_manager.c",
+      "-o",
+      "build/enemy/enemy_manager.o"
+    ],
+    "directory": "/Users/plunyo/Coding/Top-Down-Shooter",
+    "output": "build/enemy/enemy_manager.o"
   },
   {
     "file": "src/main.c",
@@ -70,24 +106,6 @@
     ],
     "directory": "/Users/plunyo/Coding/Top-Down-Shooter",
     "output": "build/world_state/world_state.o"
-  },
-  {
-    "file": "src/asset_manager/asset_manager.c",
-    "arguments": [
-      "/usr/bin/clang",
-      "-g",
-      "-Wall",
-      "-Werror",
-      "-Isrc",
-      "-DDEBUG=1",
-      "-I/opt/homebrew/Cellar/raylib/5.5/include",
-      "-c",
-      "src/asset_manager/asset_manager.c",
-      "-o",
-      "build/asset_manager/asset_manager.o"
-    ],
-    "directory": "/Users/plunyo/Coding/Top-Down-Shooter",
-    "output": "build/asset_manager/asset_manager.o"
   },
   {
     "file": "src/player/player.c",

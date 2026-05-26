@@ -4,23 +4,20 @@
 #include <raylib.h>
 #include <raymath.h>
 
-#include "asset_manager/asset_manager.h"
+#include "asset/asset_manager.h"
 #include "viewport/viewport.h"
+#include "utils/utils.h"
 
 static void CenterPlayer(Player* player) {
     player->camera.offset.x = VIRTUAL_WIDTH / 2.0f;
     player->camera.offset.y = VIRTUAL_HEIGHT / 2.0f;
 }
 
-static float LerpAngle(float current, float target, float t) {
-    float diff = fmodf(target - current + 540.0f, 360.0f) - 180.0f;
-    return current + diff * t;
-}
-
 Player* InitPlayer(Vector2 initialPosition) {
     Player* instance = MemAlloc(sizeof(Player));
 
     instance->position = Vector2Zero();
+    instance->velocity = Vector2Zero();
     instance->rotation = 0.0f;
 
     instance->variant = PLAYER_VARIANT_SOLDIER;
@@ -63,8 +60,13 @@ void UpdatePlayer(Player* player, float deltaTime) {
     }
 
     // rotation
-    Vector2 mouseWorld = GetScreenToWorld2D(ScreenToViewport(GetMousePosition()), player->camera);
-    Vector2 lookDirection = Vector2Subtract(mouseWorld, player->position);
+    Vector2 lookDirection = Vector2Subtract(
+        GetScreenToWorld2D(
+            ScreenToViewport(GetMousePosition()), 
+            player->camera
+        ), 
+        player->position
+    );
 
     player->rotation = LerpAngle(
         player->rotation, 
@@ -80,10 +82,31 @@ void UpdatePlayer(Player* player, float deltaTime) {
     if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))  direction.y += 1;
     if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) direction.x += 1;
 
-    direction = Vector2Normalize(direction);
+    if (Vector2Length(direction) > 0.0f)
+        direction = Vector2Normalize(direction);
 
-    player->position.x += direction.x * PLAYER_SPEED * deltaTime;
-    player->position.y += direction.y * PLAYER_SPEED * deltaTime;
+    // accelerate toward movement direction
+    Vector2 desiredVelocity = Vector2Scale(direction, PLAYER_SPEED);
+
+    player->velocity = Vector2Lerp(
+        player->velocity,
+        desiredVelocity,
+        PLAYER_ACCEL * deltaTime
+    );
+
+    if (Vector2Length(direction) == 0.0f) {
+        player->velocity = Vector2Lerp(
+            player->velocity,
+            Vector2Zero(),
+            PLAYER_DECEL * deltaTime
+        );
+    }
+
+    // apply velocity
+    player->position = Vector2Add(
+        player->position,
+        Vector2Scale(player->velocity, deltaTime)
+    );
 
     // camera following
     player->camera.target = player->position;

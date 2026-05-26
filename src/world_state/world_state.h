@@ -1,13 +1,17 @@
 #pragma once
 
+#include "enemy/enemy_manager.h"
 #include "player/player.h"
 
 typedef struct WorldState {
     Player* player;
+    EnemyManager* enemyManager;
 } WorldState;
 
-WorldState* InitWorldState();
-void        UnloadWorldState(WorldState* worldState);
+WorldState* LoadWorldState();
+void UnloadWorldState();
 
-void UpdateWorldState(WorldState* worldState, float deltaTime);
-void DrawWorldState(WorldState* worldState);
+WorldState* GetWorldState();
+
+void UpdateWorldState(float deltaTime);
+void DrawWorldState();

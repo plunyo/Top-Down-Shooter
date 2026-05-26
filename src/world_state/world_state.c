@@ -1,31 +1,41 @@
 #include "world_state/world_state.h"
+#include "enemy/enemy_manager.h"
 #include "player/player.h"
 #include "raymath.h"
 #include <raylib.h>
 
-WorldState* InitWorldState() {
-    WorldState* instance = MemAlloc(sizeof(WorldState));
+static WorldState* worldState;
 
-    instance->player = InitPlayer(Vector2Zero());
+WorldState* LoadWorldState() {
+    worldState = MemAlloc(sizeof(WorldState));
 
-    return instance;
+    worldState->player = InitPlayer(Vector2Zero());
+    worldState->enemyManager = InitEnemyManager();
+
+    return worldState;
 }
 
-void UnloadWorldState(WorldState* worldState) {
+WorldState* GetWorldState() {
+    return worldState;
+}
+
+void UnloadWorldState() {
     UnloadPlayer(worldState->player);
+    UnloadEnemyManager(worldState->enemyManager);
     MemFree(worldState);
 }
 
-void UpdateWorldState(WorldState* worldState, float deltaTime) {
+void UpdateWorldState(float deltaTime) {
+    UpdateEnemies(worldState->enemyManager, deltaTime);
     UpdatePlayer(worldState->player, deltaTime);
 }
 
-void DrawWorldState(WorldState* worldState) {
+void DrawWorldState() {
     BeginMode2D(worldState->player->camera);
         ClearBackground(DARKGREEN);
 
         DrawRectangle(0, 0, 100, 100, RED);
-        
+        DrawEnemies(worldState->enemyManager);
         DrawPlayer(worldState->player);
     EndMode2D();
 }

@@ -2,8 +2,10 @@
 
 #include <raylib.h>
 
-#define PLAYER_SPEED 300.0f
-#define PLAYER_SIZE  100.0f
+#define PLAYER_SPEED 200.0f
+#define PLAYER_ACCEL 12.0f
+#define PLAYER_DECEL 18.0f
+
 #define PLAYER_ROTATION_SMOOTH_SPEED 10.0f
 
 #define SPRITESHEET_FRAME_SIZE 64
@@ -33,6 +35,7 @@ typedef enum PlayerAction {
 
 typedef struct Player {
     Vector2 position;
+    Vector2 velocity;
     float rotation;
 
     PlayerVariant variant;

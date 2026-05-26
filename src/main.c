@@ -1,7 +1,9 @@
 #include <raylib.h>
+#include "enemy/enemy.h"
+#include "enemy/enemy_manager.h"
 #include "viewport/viewport.h"
 #include "world_state/world_state.h"
-#include "asset_manager/asset_manager.h"
+#include "asset/asset_manager.h"
 
 int main(int argc, char* argv[]) {
     InitWindow(1280, 720, "digga mon digga");
@@ -9,14 +11,15 @@ int main(int argc, char* argv[]) {
 
     LoadAssetManager();
     LoadViewport();
+    LoadWorldState();
 
-    WorldState* worldState = InitWorldState();
+    SpawnEnemy(GetWorldState()->enemyManager, ENEMY_TYPE_MACHINE, (Vector2){ 200.0f, 200.0f });
 
     while (!WindowShouldClose()) {
-        UpdateWorldState(worldState, GetFrameTime());
+        UpdateWorldState(GetFrameTime());
 
         BeginViewport();
-            DrawWorldState(worldState);
+            DrawWorldState();
         EndViewport();
 
         BeginDrawing();
@@ -28,7 +31,7 @@ int main(int argc, char* argv[]) {
         EndDrawing();
     }
 
-    UnloadWorldState(worldState);
+    UnloadWorldState();
     UnloadViewport();
     UnloadAssetManager();
 
