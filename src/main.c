@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
 
             DrawViewportToScreen();
             //DrawText("Art by sienna aura", 100, 100, 100, RED);
-            DrawFPS(10, 10);
+            DrawText(TextFormat("%d", GetFPS()), 10, 10, 25, WHITE);
         EndDrawing();
     }
 
