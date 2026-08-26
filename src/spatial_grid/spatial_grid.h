@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAX_BUCKETS 256
+#include <stddef.h>
 
 typedef enum EntryType {
     ENTRY_TYPE_PLAYER,
@@ -12,8 +12,17 @@ typedef struct GridEntry {
     EntryType type;
 } GridEntry;
 
+typedef struct Bucket {
+    int hash;
+    GridEntry* entries;
+    size_t entryCount;
+    size_t entryCapacity;
+} Bucket;
+
 typedef struct SpatialGrid {
-    GridEntry buckets[MAX_BUCKETS];
+    Bucket* buckets;
+    size_t bucketCount;
+    size_t bucketCapacity;
 } SpatialGrid;
 
 SpatialGrid* LoadSpatialGrid();
